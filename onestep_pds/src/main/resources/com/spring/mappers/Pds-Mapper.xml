@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Pds-Mapper">
+	<sql id="search">
+		<if test="searchType == 't'.toString()">
+			where pdstitle like '%'||#{keyword}||'%'			
+		</if>
+		<if test="searchType == 'c'.toString()">
+			where pdscontent like '%'||#{keyword}||'%'			
+		</if>
+		<if test="searchType == 'tc'.toString()">
+			where (
+			pdstitle like '%'||#{keyword}||'%'
+			or
+			pdscontent like '%'||#{keyword}||'%'						
+			)			
+		</if>
+	</sql>
+	
+	<select id="selectSearchPdsList" resultType="pds">
+		select
+		*
+		from
+		pds	  	
+		<include refid="search" />
+		order by pdsregdate desc
+	</select>
+	
+	<select id="selectSearchPdsListCount"  resultType="int">
+		select
+		count(*)
+		from
+		pds		  	
+		<include refid="search" />
+	</select>
+	
+	<select id="selectPdsByPdsid"  parameterType="int" resultType="pds">
+		select * 
+		from pds 
+		where pdsid=#{pdsid}
+	</select>
+	
+	<select id="selectPdsidSeqNext" resultType="int">
+		select pdsid_seq.nextval as pdsid from dual
+	</select>
+	
+	<insert id="insertPds" parameterType="pds">
+		insert 
+		into 
+		pds(pdsid, pdstitle, memberid, pdscontent)
+		values
+		(#{pdsid}, #{pdstitle},#{memberid},#{pdscontent})
+	</insert>
+	
+	
+	<update id="increasePdsViewPoint" parameterType="int">
+		update 
+		pds 
+		set 
+		pdsviewpoint = pdsviewpoint+1 
+		where pdsid=#{pdsid}
+	</update>
+	
+	
+	<update id="updatePds" parameterType="pds">
+		update 
+		pds
+		set 
+		pdstitle=#{pdstitle}, pdscontent=#{pdscontent}
+		where pdsid=#{pdsid}
+	</update>
+	
+	<delete id="deletePds" parameterType="int">
+		delete 
+		from pds 
+		where pdsid=#{pdsid}
+	</delete>
+
+
+</mapper>

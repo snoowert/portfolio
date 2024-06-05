@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Note-Mapper">
+	
+	<select id="selectNoteList" resultType="note" parameterType="int">
+		select *
+		from developnote
+		where projectid=#{projectId}
+		order by noteid desc
+	</select>
+
+	<select id="selectNoteByNoteId" parameterType="int" resultType="note">
+		select *
+		from developnote
+		where noteid=#{noteId}
+	</select>
+	
+	<select id="selectNoteSeqNext" resultType="int">
+		select noteid_seq.nextval as noteid from dual
+	</select>
+	
+	<insert id="insertNote" parameterType="note">
+		insert into 
+		developnote(noteid, notetitle, notecontent, noteviewpoint, memberid, projectid)
+		values(#{noteId}, #{noteTitle}, #{noteContent}, #{noteViewPoint}, #{memberId}, #{projectId})
+	</insert>
+		
+	<update id="updateNote" parameterType="note">
+		update developnote
+		set
+		notetitle=#{noteTitle}, notecontent=#{noteContent}, memberid=#{memberId}
+		where noteid=#{noteId}
+	
+	</update>
+	<update id="increaseNoteViewPoint" parameterType="int">
+		update developnote
+		set NoteViewPoint = NoteViewPoint + 1
+		where noteid=#{noteId}
+	</update>
+	
+	
+	<delete id="deleteNote" parameterType="int">
+		delete from developnote
+		where noteid=#{noteId}
+	</delete>
+	
+
+</mapper>
+

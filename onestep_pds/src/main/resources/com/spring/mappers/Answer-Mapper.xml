@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="Answer-Mapper">
+  	<!-- 답변글 리스트 조회 -->
+  	<select id="selectAnswerList" resultType="answer">
+  		select *
+  		from answer
+  		where qnaid=#{qnaid}
+  		order by answerregdate desc
+  	</select>
+  	<!-- 답변글 단일 조회 -->
+  	<select id ="selectAnswerByAnswerId" parameterType="int" resultType="answer">
+  		select *
+  		from answer
+  		where answerid=#{answerid}
+  	</select>
+  	<!-- 답변글 작성 -->
+  	<insert id="insertAnswer" parameterType="answer">
+  		insert into
+  		answer(qnaid, answerid, memberid, answercontent)
+  		values(#{qnaid}, ANSWERID_SEQ.NEXTVAL, #{memberid}, #{answercontent})
+  	</insert>
+  	<!-- 답변글 수정 -->
+  	<update id="updateAnswer" parameterType="answer">
+  		update answer
+  		set answercontent=#{answercontent}, memberid=#{memberid}
+  		where answerid=#{answerid}
+  	</update>
+  	<!-- 답변글 삭제 -->
+  	<delete id="deleteAnswer" parameterType="int">
+  		delete
+  		from answer
+  		where answerid=#{answerid}
+  	</delete>
+  	
+  </mapper>

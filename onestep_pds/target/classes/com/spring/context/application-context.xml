@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- savePath -->
+	<bean id="loginUserLogPath" class="java.lang.String">
+	    <constructor-arg value="${savePath.login.user.log.path}" />
+	</bean>
+	<bean id="loginUserLogFileName" class="java.lang.String">
+	    <constructor-arg value="${savePath.login.user.log.fileName}" />
+	</bean>
+
+	<bean id="fileUploadPath" class="java.lang.String">
+		<constructor-arg value="${savePath.pds}"></constructor-arg>
+	</bean>
+	<bean id="loginUserLogSavePath" class="java.lang.String">
+		<constructor-arg value="${savePath.login.user.log}"></constructor-arg>
+	</bean>
+	<bean id="errorLogPath" class="java.lang.String">
+		<constructor-arg value="${savePath.error.log}"></constructor-arg>
+	</bean>
+	<bean id="imageUploadPath" class="java.lang.String">
+		<constructor-arg value="${savePath.image}"></constructor-arg>
+	</bean>
+	<!-- repo -->
+	<bean id="PdsDAO" class="com.pds.dao.PdsDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="PdsFileDAO" class="com.pds.dao.PdsFileDAOImpl"
+		p:sqlSession-ref="sqlSession" />
+	<bean id="MemberDAO" class="com.member.dao.MemberDAOImpl"
+		p:sqlsession-ref="sqlSession" />
+	<bean id="QuizDAO" class="com.member.dao.QuizDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="FreeDAO"
+		  class="com.onestep.dao.FreeDAOImpl"
+		  p:sqlSession-ref="sqlSession"/>
+	<bean id="FreeCommentDAO"
+		  class="com.onestep.dao.FreeCommentDAOImpl"
+		  p:sqlSession-ref="sqlSession"/>
+	<bean id="ExpDAO" class="com.exp.dao.ExpDAOImpl"
+		p:sqlsession-ref="sqlSession"/>
+	<bean id="QnADAO" class="com.qna.dao.QnADAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="AnswerDAO" class="com.qna.dao.AnswerDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="ProjectDAO"
+		class="com.pms.dao.ProjectDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="TeamDAO"
+		class="com.pms.dao.TeamDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="NoteDAO"
+		class="com.pms.dao.NoteDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="NoteCommentDAO"
+		class="com.pms.dao.NoteCommentDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="CalendarDAO"
+		class="com.pms.dao.CalendarDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<bean id="ProjectFileDAO"
+		class="com.pms.dao.ProjectFileDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+	<!-- service -->
+	<bean id="PdsService" class="com.pds.service.PdsServiceImpl"
+		p:pdsDAO-ref="PdsDAO"
+		p:pdsFileDAO-ref="PdsFileDAO"
+		p:memberDAO-ref="MemberDAO"/>
+	<bean id="MemberService" class="com.member.service.MemberServiceImpl"
+		p:memberDAO-ref="MemberDAO"
+		p:quizDAO-ref="QuizDAO" />
+	<bean id="FreeService"
+		  class="com.onestep.service.FreeServiceImpl"
+		  p:freeDAO-ref="FreeDAO"
+		  p:freeCommentDAO-ref="FreeCommentDAO"
+		  p:memberDAO-ref="MemberDAO"/>
+	<bean id="ExpService"
+		class="com.exp.service.ExpServiceImpl"
+		p:expDAO-ref="ExpDAO"/>
+	<bean id="MainService"
+		class="com.main.service.MainServiceImpl"
+		p:freeDAO-ref="FreeDAO"
+		p:projectDAO-ref="ProjectDAO"
+		p:qnADAO-ref="QnADAO"/>
+	<bean id="QnAService"
+		class="com.qna.service.QnAServiceImpl"
+		p:answerDAO-ref="AnswerDAO"
+		p:qnADAO-ref="QnADAO"
+		p:memberDAO-ref="MemberDAO"/>
+	<bean id="ProjectService"
+		class="com.pms.service.ProjectServiceImpl"
+		p:calendarDAO-ref="CalendarDAO"
+		p:projectDAO-ref="ProjectDAO"
+		p:projectFileDAO-ref="ProjectFileDAO"
+		p:teamDAO-ref="TeamDAO"
+		p:noteDAO-ref="NoteDAO"
+		p:noteCommentDAO-ref="NoteCommentDAO"
+		p:memberDAO-ref="MemberDAO"/>
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PdsFile-Mapper">
+	<select id="selectPdsFileList" parameterType="int" resultType="pdsfile">
+		select *
+		from PdsFile
+		where PdsId=#{pdsid}
+	</select>
+	
+	<select id="selectPdsFileById" parameterType="int" resultType="pdsfile">
+		select *
+		from PdsFile
+		where PdsFileId = #{pdsfileid}
+	</select>
+	
+	<insert id="insertPdsFile" parameterType="pdsfile">
+		insert into
+		pdsFile(pdsid, pdsfileid, pdsfilename, pdsfiletype)
+		values(#{pdsid}, PDSFILEID_SEQ.NEXTVAL, #{pdsfilename}, #{pdsfiletype})
+	</insert>
+	
+	<delete id="deletePdsFile" parameterType="int">
+		delete pdsfile
+		where pdsfileid=#{pdsfileid}
+	</delete>
+	
+	<delete id="deleteAllFile" parameterType="int">
+		delete pdsfile
+		where pdsid = #{pdsid}
+	</delete>
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="QnA-Mapper">
+ 
+ 	<sql id="search">
+ 		<if test="searchType == 't'.toString()">
+ 			where qnatitle like '%'||#{keyword}||'%'
+ 		</if>
+ 		<if test="searchType == 'c'.toString()">
+ 			where qnacontent like '%'||#{keyword}||'%'
+ 		</if>
+ 		<if test ="searchType =='tc'.toString()">
+ 			where
+ 			(
+ 			qnatitle like '%'||#{keyword}||'%'
+ 			or
+ 			qnacontent like '%'||#{keyword}||'%'
+ 			)
+ 		</if>		
+ 	</sql>
+ 	<!-- 리스트 조회 -->
+ 	<select id="selectSearchQnAList" resultType="qna">
+ 		select * from qna
+ 		<include refid="search" />
+ 		order by qnaregdate desc, qnaid desc
+ 		
+ 		
+ 	</select>
+ 	<!-- 게시글 갯수 조회 -->
+ 	<select id="selectSearchQnAListCount" resultType="int">
+ 		select
+ 		count(*)
+ 		from
+ 		qna
+ 		<include refid="search" />
+ 	</select>
+ 	<!-- 게시글 단일 조회 -->
+ 	<select id="selectQnAByQnAId" parameterType="int" resultType="qna">
+ 		select *
+ 		from qna
+ 		where qnaid=#{qnaid}
+ 	</select>
+ 	<!-- 작성 게시글 번호 지정 -->
+ 	<select id="selectQnASeqNext" resultType="int">
+ 		select qnaid_seq.nextval
+ 		as qnaid from dual
+ 	</select>
+ 	 <!-- 게시글 작성 -->
+ 	<insert id="insertQnA" parameterType="qna">
+ 		insert
+ 		into
+ 		qna(qnaid,qnatitle,qnacontent,memberid)
+ 		values(#{qnaid},#{qnatitle},#{qnacontent},#{memberid})
+ 	</insert>
+	<!-- 조회수 증가 -->
+ 	<update id="increaseViewCnt" parameterType="int">
+ 		update
+ 		qna
+ 		set
+ 		qnaviewpoint = qnaviewpoint+1
+ 		where qnaid=#{qnaid}
+ 	</update>
+ 	<!-- 게시글 수정 -->
+ 	<update id="updateQnA" parameterType="qna">
+ 		update qna set
+ 		qnatitle=#{qnatitle}, memberid=#{memberid}, qnacontent=#{qnacontent}, qnaupdatedate=sysdate
+ 		where qnaid=#{qnaid}
+ 	</update>
+ 	<!-- 게시글 삭제 -->
+ 	<delete id="deleteQnA" parameterType="int">
+ 		delete
+ 		from qna
+ 		where qnaid=#{qnaid}
+ 	</delete>
+ 	 		
+ </mapper>

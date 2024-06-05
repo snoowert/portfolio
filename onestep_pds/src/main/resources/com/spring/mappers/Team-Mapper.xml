@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="Team-Mapper">
+ 
+ <select id="selectTeamList" parameterType="int" resultType="team">
+ 	select *
+ 	from team
+ 	where projectid = #{projectid}
+ </select>
+ <select id="selectTeamById" parameterType="team" resultType="team">
+ 	select *
+ 	from team
+ 	where projectid = #{projectid} and memberid = #{memberid}
+ </select>
+ <insert id="insertTeam" parameterType="team">
+ 	insert into
+ 	team(projectid, memberid)
+ 	values(#{projectid}, #{memberid})
+ </insert>
+ <delete id="deleteTeam" parameterType="team">
+ 	delete team
+ 	where projectid = #{projectid} and memberid = #{memberid}
+ </delete>
+ </mapper>

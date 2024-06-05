@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="FreeComment-Mapper"> 
+
+    <select id="selectFreeCommentList" resultType="comment">
+        select * from freecomment
+        where freeid=#{freeid}
+        order by Commentid desc
+    </select>
+
+	<select id="selectFreeByCommentId" parameterType="int" resultType="comment">
+		select * from freecomment
+		where commentid=#{commentid}
+	</select>
+	
+	<insert id="insertFreeComment" parameterType="comment">
+		insert into
+		freecomment(freeid,commentid,memberid,commentcontent) 
+		values(#{freeid}, FREECOMMENTID_SEQ.NEXTVAL, #{memberid}, #{commentcontent} )
+	</insert>
+
+	<update id="updateFreeComment" parameterType="comment">
+	    update freecomment
+	    set		
+	    commentcontent=#{commentcontent}, memberid=#{memberid}
+	    where commentid=#{commentid}
+	</update>
+
+	<delete id="deleteFreeComment" parameterType="comment">
+		delete from freecomment
+		where commentid=#{commentid}
+	</delete>
+</mapper>  

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="ProjectFile-Mapper">
+  
+  	<sql id="search">
+		<if test="searchType == 't'.toString()">
+			where fileName like '%'||#{keyword}||'%'			
+		</if>
+
+	</sql>
+	
+	
+  
+  
+  	<select id="selectProjectFileList" resultType="pjfile" parameterType="int">
+  		select *
+  		from projectfile
+		where projectid = #{projectid}
+		order by fileId desc
+  	</select>
+  	
+  	<select id="selectProjectFileByFileId" parameterType="int" resultType="pjfile">
+  		select *
+  		from projectfile
+  		where fileid = #{fileId}
+  	
+  	</select>
+  	
+  	<select id="selectProjectFileListCount" resultType="int" parameterType="int">
+  		select count(*)
+  		from projectfile
+  		where projectid = #{projectid}
+  	</select>
+  	
+
+
+
+	<insert id="insertProjectFile" parameterType="pjfile">
+		insert into
+		projectfile (fileid, filename, filedowncnt, memberid, projectid)
+		values(projectfileid_seq.nextval, #{fileName }, #{fileDownCnt}, #{memberId}, #{projectId})
+	</insert>
+	<update id="increaseProjectFileDownCnt" parameterType="int">
+		update projectfile
+		set
+		filedowncnt = filedowncnt + 1
+		where fileid=#{fileid}
+	</update>
+	
+	<delete id="deleteProjectFile" parameterType="int">
+		delete
+		from projectfile
+		where fileid = #{fileId}
+	</delete>
+	
+	
+  </mapper>

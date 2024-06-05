@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias type="java.lang.Integer" alias="int"/>
+		<typeAlias type="java.lang.String" alias="str"/>
+		<typeAlias type="com.pds.vo.PdsVO" alias="pds"/>
+		<typeAlias type="com.pds.vo.PdsFileVO" alias="pdsfile"/>
+		<typeAlias type="com.member.vo.MemberVO" alias="member" />
+		<typeAlias type="com.onestep.dto.FreeVO" alias="free"/>
+		<typeAlias type="com.onestep.dto.FreeCommentVO" alias="comment"/>
+		<typeAlias type="com.member.vo.QuizVO" alias="quiz"/>
+		<typeAlias type="com.exp.vo.ExpVO" alias="exp"/>
+		<typeAlias type="com.qna.dto.QnAVO" alias="qna"/>
+		<typeAlias type="com.qna.dto.AnswerVO" alias="answer"/>
+		<typeAlias type="com.pms.dto.ProjectVO" alias="project"/>
+		<typeAlias type="com.pms.dto.NoteVO" alias="note"/>
+		<typeAlias type="com.pms.dto.NoteCommentVO" alias="noteComment"/>
+		<typeAlias type="com.pms.dto.CalendarVO" alias="cal"/>
+		<typeAlias type="com.pms.dto.ProjectFileVO" alias="pjfile"/>
+		<typeAlias type="com.pms.dto.TeamVO" alias="team"/>
+	</typeAliases>
+	
+</configuration>

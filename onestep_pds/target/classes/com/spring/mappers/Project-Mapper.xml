@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="Project-Mapper">
+	
+	<sql id="search">
+		<if test="searchType == 'n'.toString()">
+			projectname like '%'||#{keyword}||'%'
+		</if>
+	</sql>
+
+	<select id="selectProjectList" resultType="project">
+		select *
+		from project
+		<where>
+			<include refid="search" />
+		</where>
+		order by projectid desc
+	</select>
+	
+	<select id="selectProjectByProjectId" parameterType="int" resultType="project">
+		select *
+		from project
+		where projectid=#{projectId}
+	
+	</select>
+	
+	<select id="selectProjectListCount" resultType="int">
+		select count(*)
+		from project
+		<where>
+			<include refid="search"/>
+		</where>
+	</select>
+	
+	<select id="selectProjectSeqNext" resultType="int">
+		select PROJECTID_SEQ.NEXTVAL as projectid from dual	
+	</select>
+	
+	
+	
+	<insert id="insertProject" parameterType="project">
+		insert into
+		project(projectid, projectname, projectdescription)
+		values(#{projectId}, #{projectName}, #{projectDescription})
+	</insert>
+	
+	<update id="updateProject" parameterType="project">
+		update project
+		set 
+		projectname=#{projectName}, projectdescription=#{projectDescription}
+		where projectid=#{projectId}
+	</update>
+	
+	
+	<delete id="deleteProject" parameterType="int">	
+		delete
+		from project
+		where projectid=#{projectId}
+	
+	</delete>
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans:bean id="customAuthenticationProvider" 
+	            class="com.spring.security.CustomAuthenticationProvider"
+	            p:memberService-ref="MemberService"
+	            />
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="customAuthenticationProvider" />
+    </authentication-manager>
+	
+	<!-- 인허가 -->
+	<http pattern="/resources/**" security="none" />
+	<http use-expressions="true" pattern="/**">
+		<access-denied-handler error-page="/security/accessDenied" />
+		
+		<intercept-url pattern="/index.do*" access="isAuthenticated()"/>	
+		<intercept-url pattern="/**" access="permitAll"/>
+		
+		<form-login login-page="/member/loginForm.do"
+		            login-processing-url="/member/login.do"
+		            username-parameter="email"
+		            password-parameter="password"
+		            authentication-success-handler-ref="loginSuccessHandler"
+		            authentication-failure-handler-ref="loginFailureHandler"
+		            
+		            />
+		<logout logout-url="/member/logout"
+		        invalidate-session="true"
+		        logout-success-url="/"
+				delete-cookies="JSESSIONID"/>
+		        
+		<session-management invalid-session-url="/member/loginTimeOut" >
+			<concurrency-control					
+				expired-url="/member/loginExpired"
+				max-sessions="1"
+				session-registry-ref="sessionRegistry"
+			/>		
+		</session-management>	        
+	</http>
+	
+	            
+	<!-- 세션동기화 -->
+	<beans:bean id="sessionRegistry" 
+ 		class="org.springframework.security.core.session.SessionRegistryImpl"
+ 	/> 
+ 	
+	<beans:bean id="loginSuccessHandler"
+		 	class="com.spring.security.LoginSuccessHandler"
+		 	p:defaultTargetUrl="/main/" 
+		 	p:loginUserLogSavePath-ref="loginUserLogPath" 
+		 	p:loginUserLogSaveFileName-ref="loginUserLogFileName"
+		 	/>  
+	<beans:bean id="loginFailureHandler"
+	            class="com.spring.security.LoginFailureHandler"
+			/>
+ 	
+</beans:beans>
+
+
+
+
+
+
+

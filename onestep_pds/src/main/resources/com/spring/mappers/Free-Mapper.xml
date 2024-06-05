@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Free-Mapper"> 
+
+
+    <sql id="search">
+        <if test="searchType == 't'.toString()">
+            and Freetitle like '%'||#{keyword}||'%'
+        </if>
+    </sql>
+
+    <select id="selectFreeList" resultType="free">
+        select * from free
+        <where>
+            <include refid="search"/>
+        </where>
+        order by Freeid desc
+    </select>
+    <select id="selectFreeListCount" resultType="int">
+        select count(*) from free
+        <where>
+            <include refid="search"/>
+        </where>
+    </select>
+	
+	<select id="selectFreeByFreeId" parameterType="int" resultType="free">
+		select * from free
+		where Freeid=#{freeid}
+	</select>
+	
+	<select id="selectFreeSeqNext" resultType="int">
+		select freeid_seq.nextval as freeid from dual
+	</select>
+	
+	<insert id="insertFree" parameterType="free">
+		insert into
+		free(Freeid,Freecontent,Freetitle,memberid,Freeviewpoint) 
+		values(#{freeid}, #{freecontent}, #{freetitle}, #{memberid}, #{freeviewpoint} )
+	</insert>
+	
+	<update id="increaseFreeViewPoint" parameterType="int">
+		update free 
+		set Freeviewpoint = Freeviewpoint + 1 
+		where freeid=#{freeid}
+	</update>
+	
+	<update id="updateFree" parameterType="free">
+	    update free
+	    set		
+	    Freetitle=#{freetitle}, memberid=#{memberid}, Freecontent=#{freecontent}
+	    where Freeid=#{freeid}
+	</update>
+
+	<delete id="deleteFree" parameterType="free">
+		delete from free
+		where Freeid=#{freeid}
+	</delete>
+</mapper>  

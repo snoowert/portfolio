@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="NoteComment-Mapper">
+	<select id="selectNoteCommentList" parameterType="int" resultType="noteComment">
+		select *
+		from DNComment
+		where noteid = #{noteid}
+		order by dncomregdate desc 
+	</select>
+	
+	<select id="selectNoteCommentById" parameterType="int" resultType="noteComment">
+		select *
+		from DNComment
+		where dncomid = #{dncomid}
+	</select>
+
+	<insert id="insertNoteComment" parameterType="noteComment">
+		insert into
+		DNComment(dncomid, noteid, dncomcontent, memberid, projectid)
+		values(dncommentid_seq.nextval, #{noteid}, #{dncomcontent}, #{memberid}, #{projectid})
+	</insert>
+
+	<update id="updateNoteComment" parameterType="noteComment">
+		update DNcomment
+	    set		
+	    dncomcontent=#{dncomcontent}
+	    where dncomid=#{dncomid}
+	</update>
+	
+	<delete id="deleteNoteComment" parameterType="int">
+		delete from DNComment
+		where dncomid = #{dncomid}
+	</delete>
+</mapper>
